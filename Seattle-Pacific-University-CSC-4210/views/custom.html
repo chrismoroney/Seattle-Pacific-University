@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom DFA</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+        }
+
+        a {
+            color: #00B7FF;
+        }
+        h1 {
+            text-align: center;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        b {
+            font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .image img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+            height: 450px;
+        }
+
+        .jumbotron p {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .jumbotron pre {
+            text-align: center;
+            font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            padding: 10px;
+        }
+        .input-group {
+            padding: 10px;
+        }
+    </style>
+    <script>
+        var statesChecked = false;
+        var alphabetChecked = false;
+        var startChecked = false;
+        var acceptsChecked = false;
+        var transitionsChecked = false;
+
+        var states = [];
+        var startState = "";
+        var acceptState = [];
+        var alphabet = [];
+        var transitions = [];
+        var currentStates = [];
+        var alphasToMove = [];
+        var toStates = [];
+
+        var currentState;
+        function checkNumStates(){
+            statesChecked = false;
+            states = [];
+            var input = document.getElementById("states").value;
+            stateOutput.innerHTML = "";
+            if(input <= 0){
+                stateOutput.innerHTML += "<pre> Please input a number greater than 0 </pre>";
+            } else {
+                statesChecked = true;
+                for (var i = 0; i < input; i++){
+                    states.push("q" + String(i));
+                }
+            }
+            if(statesChecked){
+                stateOutput.innerHTML += "<pre> <b>Success!</b> States (Q): {" + states + "}</pre>"
+            }
+        }
+
+        function checkAlphabet(){
+            alphabetChecked = false;
+            alphabet = []
+            var input = document.getElementById("alphabet").value;
+            alphaOutput.innerHTML = "";
+            if(input <= 0){
+                alphaOutput.innerHTML += "<pre> Please input a number greater than 0 </pre>";
+            } else {
+                alphabetChecked = true;
+                for (var i = 0; i < input; i++){
+                    alphabet.push(String(i));
+                }
+            }
+            if(alphabetChecked){
+                alphaOutput.innerHTML += "<pre><b>Success!</b> Alphabet (E): {" + alphabet + "}</pre>"
+            }
+        }
+
+        function checkStart(){
+            startChecked = false;
+            var input = document.getElementById("start").value;
+            startState = "";
+            startOutput.innerHTML = "";
+
+            if(statesChecked){
+                if(states.includes("q" + input)){
+                    startChecked = true;
+                    startState = states[input];
+                } else {
+                    startOutput.innerHTML += "<pre>Please input a valid number that corresponds to a state in Q (ex. 2 --> q2)</pre>";
+                }
+            } else {
+                startOutput.innerHTML += "<pre>Please input number of states first</pre>";
+            }
+            if(startChecked){
+                startOutput.innerHTML += "<pre><b>Success!</b>  Start State (q0): " + startState + "</pre>";
+            }
+        }
+
+        function checkAccepts(){
+            acceptsChecked = false;
+            var input = document.getElementById("accept").value;
+            acceptState = [];
+            acceptOutput.innerHTML = "";
+
+            if(statesChecked){
+                if(input == "e"){
+                    acceptState = [];
+                    acceptsChecked = true;
+                } else if(input.includes(" ")){
+                    acceptOutput.innerHTML = "<pre>Please do not include spaces in list of accepts states</pre>";
+                } else {
+                    acceptState = input.split(',');
+                    for(var i = 0; i < acceptState.length; i++) {
+                        if (!states.includes(acceptState[i])) {
+                            acceptsChecked = false;
+                            acceptOutput.innerHTML = "<pre>Please only enter valid states from the set of states " +
+                                "listed above and format input correctly.</pre>";
+                            break;
+                        } else {
+                            acceptsChecked = true;
+                        }
+                    }
+                }
+            } else {
+                acceptOutput.innerHTML = "<pre>Please valid number of states before entering accept states.</pre>";
+            }
+            if(acceptsChecked) {
+                acceptOutput.innerHTML += "<pre><b>Success!</b> Accept States (F): {" + acceptState + "}</pre>";
+            }
+        }
+
+        function checkTransitions(){
+            // (currentstate, alphabet, nextstate)|(currentstate, alphabet, nextstate)|(...)
+            transitionsChecked = false;
+            var regex = /(\(q[0-9]+\,[0-9]+\,q[0-9]+\)\|)+|(\(q[0-9]+\,[0-9]+\,q[0-9]+\))/
+            var input = document.getElementById("transition").value;
+            var checks = [];
+            // preparing for actual DFA
+            currentStates = [];
+            alphasToMove = [];
+            toStates = [];
+            transitionOutput.innerHTML = "";
+            if(statesChecked && alphabetChecked){
+                if(regex.test(input)){
+                    transitions = input.split("|");
+                    for(var i = 0; i < transitions.length; i++){
+                        checks = transitions[i].split(",");
+                        for(var k = 0; k < checks.length; k++){
+                            if(checks[k].includes('(')){
+                                checks[k] = checks[k].replace('(','');
+                            } else if (checks[k].includes(')')){
+                                checks[k] = checks[k].replace(')','');
+                            }
+                            if(k == 0){
+                                currentStates.push(checks[k]);
+                            } else if (k == 1){
+                                alphasToMove.push(checks[k]);
+                            } else {
+                                toStates.push(checks[k]);
+                            }
+                        }
+                    }
+                    for(i = 0; i < currentStates.length; i++){
+                        if(!(states.includes(currentStates[i]) && alphabet.includes(alphasToMove[i]) && states.includes(toStates[i]))){
+                            transitionsChecked = false;
+                            transitionOutput.innerHTML = "<pre>Please only input valid states and alphabetical characters" +
+                                " from above and make sure your formatting is correct.</pre>";
+                            break;
+                        } else if (currentStates.length < states.length * alphabet.length){
+                            transitionsChecked = false;
+                            transitionOutput.innerHTML = "<pre>Not enough transition rules. The total number of rules is " +
+                                "equal to the number of states times the number of characters in alphabet. </pre>"
+                        } else if(currentStates.length > states.length * alphabet.length){
+                            transitionsChecked = false;
+                            transitionOutput.innerHTML = "<pre>Too many transition rules. The total number of rules is " +
+                                "equal to the number of states times the number of characters in alphabet. </pre>"
+                        } else {
+                            transitionsChecked = true;
+                        }
+                    }
+                } else {
+                    transitionOutput.innerHTML = "<pre>Please input your rules using the correct formatting.</pre>";
+                }
+            } else {
+                transitionOutput.innerHTML = "<pre>Please input the number of states and chars in alphabet first.</pre>";
+            }
+            if(transitionsChecked){
+                transitionOutput.innerHTML = "<pre><b>Success!</b> Transition Function Rules (S): {" + transitions + "}</pre>";
+            }
+        }
+
+        function makeGuess(){
+            var input = String(document.getElementById("insert").value);
+            output.innerHTML = "";
+            var outting = "";
+            var cantFind = false;
+
+            if(!(statesChecked && alphabetChecked && startChecked && acceptsChecked && transitionsChecked)){
+                output.innerHTML = "<pre>Please fill in all fields above before entering a String.</pre>";
+            } else {
+                currentState = startState;
+                outting += "<p>Reason:</p>";
+                outting += "<pre>" + "Inputted String: " + "<b>" + input + "</b>" + "</pre>";
+                outting += "<pre>Start State (q0): " + currentState + "</pre>"
+                for(var i = 0; i < input.length; i++){
+                    if(!alphabet.includes(input.charAt(i))){
+                        outting = "<pre>Please input a string consisting of characters from your provided language.</pre>";
+                        cantFind = true;
+                        break;
+                    } else {
+                        for(var k = 0; k < currentStates.length; k++){
+                            cantFind = true;
+                            if(currentStates[k] == currentState && alphasToMove[k] == input[i]){
+                                cantFind = false;
+                                outting += "<pre>(" + currentState + ", " + input[i] + ") --> " + "<b>" + toStates[k] + "</b>" +
+                                    " because of rule: " + transitions[k] + "</pre>";
+                                currentState = toStates[k];
+                                break;
+                            }
+                        }
+                        if (cantFind){
+                            outting += "<pre>Please check your transition function rules, as the machine could not find a " +
+                                "valid transition.</pre>";
+                        }
+                    }
+
+                }
+                if(acceptState.includes(currentState) && !cantFind){
+                    output.innerHTML = "<p>Result: Accept</p>";
+                    outting += "After consuming the whole string, the DFA ends in an accepting state, which is a state in this set: {"
+                        + "<b>" + acceptState + "</b>" + "}. Thus, the inputted string is " + "<b>" + "accepted." + "</b>";
+                } else if(cantFind) {
+                    output.innerHTML = "<p>Result: Undetermined</p>";
+                } else {
+                    output.innerHTML = "<p>Result: Reject</p>";
+                    outting += "After consuming the whole string, the DFA does not end in an accepting state, which is a state in this set: {"
+                        + "<b>" + acceptState + "</b>" + "}. Thus, the inputted string is " + "<b>" + "rejected." + "</b>";
+                }
+                output.innerHTML += outting;
+            }
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Home</a>
+            <a class="nav-item nav-link" href="moroneyDFAM1">Machine 1</a>
+            <a class="nav-item nav-link" href="moroneyDFAM2">Machine 2</a>
+            <a class="nav-item nav-link" href="moroneyDFAM3">Machine 3</a>
+            <a class="nav-item nav-link active" href="custom">Create your own DFA</a>
+        </div>
+    </div>
+</nav>
+<h1>Chris Moroney's CSC 4210 DFA Extra Credit</h1>
+<h3>Winter 2021</h3>
+
+<div class="container">
+    <p>Please use this section to modify one of the existing machines or to create your own DFA. Formal descriptions are provided in each
+        of the existing machines.</p>
+    <br>
+    <label for="states">Number of States (number greater than 0)</label>
+    <div class="input-group">
+        <input type="number" name="states" id="states" class="form-control"
+               placeholder="0" required="true">
+        <button class="btn btn-info" id="btnSubmit1">Submit</button>
+    </div>
+    <div class="container" id="stateOutput">
+
+    </div>
+    <label for="alphabet">Number of chars in Alphabet (number greater than 0):</label>
+    <div class="input-group">
+        <input type="number" name="alphabet" id="alphabet" class="form-control"
+               placeholder="0" required="true">
+        <button class="btn btn-info" id="btnSubmit2">Submit</button>
+    </div>
+    <div class="container" id="alphaOutput">
+
+    </div>
+    <label for="start">Start state (number corresponding to state):</label>
+    <div class="input-group">
+        <input type="number" name="start" id="start" class="form-control"
+               placeholder="0 --> q0" required="true">
+        <button class="btn btn-info" id="btnSubmit3">Submit</button>
+    </div>
+    <div class="container" id="startOutput">
+
+    </div>
+    <label for="accept">Accept states (comma separated, no spaces, e for empty):</label>
+    <div class="input-group">
+        <input type="text" name="accept" id="accept" class="form-control"
+               placeholder="q0,q1" required="true">
+        <button class="btn btn-info" id="btnSubmit4">Submit</button>
+    </div>
+    <div class="container" id="acceptOutput">
+
+    </div>
+    <label for="transition">Transitions (please follow the format below, each rule separated by '|', no spaces):</label>
+    <div class="input-group">
+        <input type="text" name="transition" id="transition" class="form-control"
+               placeholder="(current_state,alphabet,next_state)|(q0,1,q1)|..." required="true">
+        <button class="btn btn-info" id="btnSubmit5">Submit</button>
+    </div>
+    <div class="container" id="transitionOutput">
+
+    </div>
+</div>
+<div class="container">
+    <label for="insert">Insert a string consisting of only characters from your alphabet:</label>
+    <div class="input-group">
+        <input type="text" name="insert" id="insert" class="form-control" placeholder="Binary Number">
+        <button id="sendGuess" class="btn btn-danger">Submit String</button>
+    </div>
+</div>
+<div class="container">
+    <div class="jumbotron" id="output">
+
+    </div>
+</div>
+<script>
+    document.getElementById("btnSubmit1").addEventListener("click", checkNumStates);
+    document.getElementById("btnSubmit2").addEventListener("click", checkAlphabet);
+    document.getElementById("btnSubmit3").addEventListener("click", checkStart);
+    document.getElementById("btnSubmit4").addEventListener("click", checkAccepts);
+    document.getElementById("btnSubmit5").addEventListener("click", checkTransitions);
+    document.getElementById("sendGuess").addEventListener("click", makeGuess);
+</script>
+</body>
+</html>
