@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>multiFunctionalDashBoard</class>
+ <widget class="QMainWindow" name="multiFunctionalDashBoard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1266</width>
+    <height>675</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>multiFunctionalDashBoard</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLCDNumber" name="hourLCD">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="minuteLCD">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>60</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="secondLCD">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>60</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="imageDownloadDisplay">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>570</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Traffic (Zip)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="imageLabel">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>140</y>
+      <width>371</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="zipEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>370</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>98119</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="weatherDownloadButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>570</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Weather (Zip)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tempLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>450</y>
+      <width>171</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>48</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weatherIcon">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>460</y>
+      <width>91</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="backgroundLabel">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1491</width>
+      <height>981</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="photoSlide">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>150</y>
+      <width>371</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weatherLabel">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>530</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tempHiLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>530</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tempLowLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>550</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="homeZipLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>370</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enter Zip Code:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="humidityLabel">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>550</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeOfDayMessage">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>0</y>
+      <width>651</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>32</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="encouragementMessage">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>100</y>
+      <width>661</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="timeZoneBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>341</width>
+      <height>71</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="hourTimeZone">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>190</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="minuteTimeZone">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>190</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="secondTimeZone">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>190</y>
+      <width>111</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="digitCount">
+     <number>2</number>
+    </property>
+    <property name="value" stdset="0">
+     <double>11.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>284</y>
+      <width>321</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select Time Zone (Default: Pacific Standard Time):</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>150</y>
+      <width>331</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Default Time: Apple Mac Time</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dayButton">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>10</y>
+      <width>113</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Day Mode</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nightButton">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>60</y>
+      <width>113</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Night Mode</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="closeButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Close Application</string>
+    </property>
+   </widget>
+   <zorder>backgroundLabel</zorder>
+   <zorder>hourLCD</zorder>
+   <zorder>minuteLCD</zorder>
+   <zorder>secondLCD</zorder>
+   <zorder>imageDownloadDisplay</zorder>
+   <zorder>imageLabel</zorder>
+   <zorder>zipEdit</zorder>
+   <zorder>weatherDownloadButton</zorder>
+   <zorder>tempLabel</zorder>
+   <zorder>weatherIcon</zorder>
+   <zorder>photoSlide</zorder>
+   <zorder>weatherLabel</zorder>
+   <zorder>tempHiLabel</zorder>
+   <zorder>tempLowLabel</zorder>
+   <zorder>homeZipLabel</zorder>
+   <zorder>humidityLabel</zorder>
+   <zorder>timeOfDayMessage</zorder>
+   <zorder>encouragementMessage</zorder>
+   <zorder>timeZoneBox</zorder>
+   <zorder>hourTimeZone</zorder>
+   <zorder>minuteTimeZone</zorder>
+   <zorder>secondTimeZone</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>dayButton</zorder>
+   <zorder>nightButton</zorder>
+   <zorder>closeButton</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1266</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
