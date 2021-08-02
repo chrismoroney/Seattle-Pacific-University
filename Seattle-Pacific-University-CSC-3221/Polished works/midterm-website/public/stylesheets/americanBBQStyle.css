@@ -1,0 +1,16 @@
+body {
+    padding: 50px;
+}
+
+h1 {
+    font: 48px "Times New Roman";
+    justify-content: center;
+    text-align: center;
+}
+* {
+    background-color: rosybrown;
+}
+img {
+    max-width: 100%;
+    align-content: center;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "chris-starting-repo",
+  "version": "1.0.0",
+  "description": "Chris Moroney Example",
+  "engines": {
+    "node": "12.x"
+  },
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrismoroneySPU/chris-starting-repo.git"
+  },
+  "keywords": [
+    "nodejs",
+    "SPU"
+  ],
+  "author": "Chris Moroney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrismoroneySPU/chris-starting-repo/issues"
+  },
+  "homepage": "https://github.com/chrismoroneySPU/chris-starting-repo#readme"
+}

@@ -1,0 +1,15 @@
+body {
+  padding: 50px;
+  font: 14px "Times New Roman", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font: 48px "Times New Roman";
+  justify-content: center;
+  text-align: center;
+}
+
+* {
+  background-color: lightgoldenrodyellow;
+}
+

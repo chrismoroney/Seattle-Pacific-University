@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>Guessing Game</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <style>
+        /*Provides a small padding so all elements are not clumped right at the top of the screen */
+        body {
+            padding: 50px;
+        }
+        /*Containers should have a background-color of light pink, and have a small extra padding so that all elements inside
+        the container are not flush along the bottom or sides (spacing)*/
+        .container {
+            background-color: lightpink;
+            padding: 10px;
+        }
+        /* Each form-group should have some padding so that the elements are not directly placed in the corner (spacing),
+        and background color should be light yellow for contrast*/
+        .form-group {
+            background-color: lightyellow;
+            padding: 10px;
+        }
+        /*The main title should be centered, Georgia font, and background-color should be light blue. */
+        .title{
+            text-align: center;
+            font-family: "Georgia", Times, serif;
+            background-color: lightblue;
+        }
+        /* Each caption should be centered and have Comic Sans font (almost for "game" feel). */
+        .caption {
+            text-align: center;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+        /* Output should be slightly larger, and should be cnetered */
+        #output {
+            font-size: 18px;
+            text-align: center;
+        }
+        /* Outcome (or all guesses) should be centered, slightly larger, and background color of light green */
+        #outcome {
+            background-color: lightgreen;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        // Initialize some variables that are needed for both
+        // The randomly generated number
+        var answer;
+        // total number of guesses
+        var remainingGuesses;
+        // message produced after every guess
+        var message;
+        // boolean determining if player won or not
+        var win = false;
+        // function responsible for starting a new game and generating a random number.
+        function generateNumber(){
+            // get the element that determines the starting value of the user's range
+            var start = parseInt(document.getElementById("start").value);
+            // get the element that determines the starting value of the user's range
+            var end = parseInt(document.getElementById("end").value);
+            // define answer to be a random element (rounded down, as math.random produces a random value between 0 and 1)
+            // between the start value and the end value
+            answer = Math.floor(Math.random() * (end-start)) + start;
+            // were putting the results of the game
+            var result = document.getElementById("outcome");
+            // set the number of guesses the user has to guess the number
+            remainingGuesses = 5;
+            // simple message to show a new game has started
+            let goodLuckMessage = "New Game Started! Good Luck!"
+            // when new game starts, display the good luck message
+            output.innerHTML = goodLuckMessage;
+            // reset the playing area when a new game has started
+            result.innerHTML = "";
+            // set the message to blank for when we start playing the game
+            message = "";
+        }
+        // function that evaluates the user's guess
+        function numberGuess() {
+            // set the start game section to blank, indicating that a game is in progress
+            output.innerHTML = "";
+            // set result equal to the area where the guesses and feedback will be output
+            result = document.getElementById("outcome");
+            // set guess equal to the number inputted in the guessing section inputted by the user
+            let guess = parseInt(document.getElementById("guess").value);
+            // if remainingGuesses is not equal to zero, then we still have a chance to win the game
+            if (remainingGuesses != 0){
+                // output the guess that the user types in
+                message += guess;
+                // if it's correct, then we win
+                if (guess == answer){
+                    message = "<p>You got it!</p><p>You win!</p>";
+                    // end game by setting remainingGuesses as 0
+                    remainingGuesses = 0;
+                    // win condition is true
+                    win = true;
+                // if the guess is not correct
+                } else {
+                    // decrement the remainingGuesses by 1
+                    remainingGuesses-=1;
+                    // if the guess is lower, output that the answer is higher, and print the number of guesses remaining
+                    if (guess < answer) {
+                        message += "<p>Try again. The answer is higher. You have " + remainingGuesses + " guesses remaining.</p>";
+                    // if the guess is higher, output that the answer is lower, and print the number of guesses remaining
+                    } else {
+                        message += "<p>Try again. The answer is lower. You have " + remainingGuesses + " guesses remaining.</p>";
+                    }
+                    // if the remainingGuesses is 0 and the answer is still not correct, we lose
+                    if (remainingGuesses == 0){
+                        // output lose message
+                        message += "<p>You lose! The answer was: </p>";
+                        // output the correct answer
+                        message += answer;
+                    }
+                }
+                // puts the message and all that has been added to it into result
+                result.innerHTML = message;
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- This div is a  container responsible for setting the random number and new game-->
+<div class="container">
+    <!--This div contains the title of the game-->
+    <div class="title">
+        <h1>Welcome to Chris Moroney's Guessing Game!</h1>
+    </div>
+    <!--This div contains a description of this section, including how to start the game-->
+    <div class="caption">
+        <h4>Select a range of numbers using the Start Number and End Number,
+            then click Start Game to being playing!</h4>
+    </div>
+    <!--This div is a form-group that allows the user to type in a starting range value-->
+    <div class="form-group">
+        <!--label for starting range value -->
+        <label for="start">Start Number (inclusive) (from...)</label>
+        <!--input (type number) for starting range value -->
+        <input type="number" name="start" id="start" class="form-control"
+               placeholder="Number">
+    </div>
+    <!--This div is a form-group that allows the user to type in a starting range value-->
+    <div class="form-group">
+        <!--label for end range value -->
+        <label for="end">End Number (exclusive) (to...)</label>
+        <!--input (type number) for end range value -->
+        <input type="number" name="end" id="end" class="form-control"
+               placeholder="Number">
+    </div>
+    <!--A button that will activate the "generateNumber" function-->
+    <button type="submit" id="getRandomNumber" class="btn btn-primary">Start Game!</button>
+</div>
+<!--An empty container (right now) that will put the html generated by generateNumber into here-->
+<div class="container" id="output">
+
+</div>
+<!--This script calls an EventListner that links the getRandomNumber button with function generateNumber-->
+<script>
+    document.getElementById("getRandomNumber").addEventListener("click", generateNumber);
+</script>
+<br>
+<hr>
+<!--This div is a container that contains all of the evaulations of the guesses inputted by the user-->
+<div class="container">
+    <!--This div contains a description of this section, including how to submit a guess -->
+    <div class="caption">
+        <h4>Enter your guess, then click the "Submit Guess" button. To start a new game, click "Start Game!"
+            Feel free to change your range of values too!</h4>
+    </div>
+    <!--This div is a form-group that allows the user to type in their guess-->
+    <div class="form-group">
+        <label for="guess">Guess a number:</label>
+        <input type="number" name="guess" id="guess" class="form-control"
+               placeholder="Number">
+    </div>
+    <!--A button that will activate the "numberGuess" function-->
+    <button type="submit" id="sendGuess" class="btn btn-primary">Submit Guess</button>
+</div>
+<!--An empty container (right now) that will put the html generated by numberGuess into here-->
+<div class="container" id="outcome">
+
+</div>
+<!--This script calls an EventListner that links the sendGuess button with function numberGuess-->
+<script>
+    document.getElementById("sendGuess").addEventListener("click", numberGuess);
+</script>
+</body>
+</html>
